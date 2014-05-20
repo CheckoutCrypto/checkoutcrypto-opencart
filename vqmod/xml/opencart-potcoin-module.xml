@@ -1,0 +1,73 @@
+<modification>
+	<id>Makes the modifications necessary to conveniently use Potcoin module</id>
+	<version>1.0</version>
+	<vqmver>2.3.2</vqmver>
+	<author>dream_code</author>
+
+	<file name="catalog/model/checkout/order.php">
+		<operation>
+			<search position="after"><![CDATA[
+				'currency_value'          => $order_query->row['currency_value'],]]></search>
+			<add><![CDATA[
+				'checkoutcrypto_address'          => $order_query->row['checkoutcrypto_address'],]]></add>
+		</operation>
+    </file>
+
+    <file name="admin/controller/sale/order.php">
+        <operation>
+            <search position="after"><![CDATA[
+                $this->data['heading_title'] = $this->language->get('heading_title');]]></search>
+            <add><![CDATA[
+                if(isset($order_id)) {
+                $query = $this->db->query("SELECT checkoutcrypto_order_id, checkoutcrypto_total FROM `" . DB_PREFIX . "order` WHERE order_id = '" . (int)$order_id . "'");
+                    if(isset($query->row['checkoutcrypto_order_id'])) {
+                        $this->data['payment_checkoutcrypto_order_id'] =  $query->row['checkoutcrypto_order_id'];
+                    }
+                    if(isset($query->row['checkoutcrypto_order_id'])) {
+                        $this->data['payment_checkoutcrypto_total'] =  $query->row['checkoutcrypto_total'];
+                    }
+                }
+                ]]></add>
+        </operation>
+        <operation>
+            <search position="after"><![CDATA[
+                $this->data['text_payment_method']]]></search>
+            <add><![CDATA[
+                $this->data['text_checkoutcrypto_order_id'] = $this->language->get('text_checkoutcrypto_order_id');
+                $this->data['text_checkoutcrypto_total'] = $this->language->get('text_checkoutcrypto_total');
+                ]]></add>
+        </operation>
+    </file>
+
+    <file name="admin/language/english/sale/order.php">
+        <operation>
+            <search position="after"><![CDATA[
+                $_['text_error']]]></search>
+            <add><![CDATA[
+                $_['text_checkoutcrypto_total'] = 'Payment Amount: ';
+                $_['text_checkoutcrypto_order_id'] = 'CheckoutCrypto Order ID: ';]]></add>
+        </operation>
+    </file>
+    <file name="admin/view/template/sale/order_info.tpl">
+        <operation>
+            <search position="before" offset="1"><![CDATA[
+                <?php echo $payment_action; ?>]]></search>
+            <add><![CDATA[
+              <tr>
+                <td><?php if(isset($payment_checkoutcrypto_total)) { echo $text_checkoutcrypto_total; } ?></td>
+                <td><?php if(isset($payment_checkoutcrypto_total)) { echo $payment_checkoutcrypto_total; } ?></td>
+              </tr>
+                ]]></add>
+        </operation>
+        <operation>
+            <search position="before" offset="1"><![CDATA[
+                <?php echo $payment_action; ?>]]></search>
+            <add><![CDATA[
+              <tr>
+                <td><?php if(isset($payment_checkoutcrypto_order_id)) { echo $text_checkoutcrypto_order_id; } ?></td>
+                <td><?php if(isset($payment_checkoutcrypto_order_id)) { echo $payment_checkoutcrypto_order_id; } ?></td>
+              </tr>
+                ]]></add>
+        </operation>
+    </file>
+</modification>
