@@ -62,9 +62,9 @@ Copyright (c) 2013 John Atkinson (jga)
             </select></td>
         </tr>
 		<tr>
-          <td><?php echo $entry_pot_decimal; ?></td>
-          <td><select name="checkoutcrypto_pot_decimal"> 
-              <?php if ($checkoutcrypto_pot_decimal == 8) { ?>
+          <td><?php echo $entry_cc_decimal; ?></td>
+          <td><select name="checkoutcrypto_cc_decimal"> 
+              <?php if ($checkoutcrypto_cc_decimal == 8) { ?>
               <option value="8" selected="selected"><?php echo $text_8; ?></option>
               <option value="7"><?php echo $text_7; ?></option>
               <option value="6"><?php echo $text_6; ?></option>
@@ -72,7 +72,7 @@ Copyright (c) 2013 John Atkinson (jga)
               <option value="4"><?php echo $text_4; ?></option>
               <option value="3"><?php echo $text_3; ?></option>
               <option value="2"><?php echo $text_2; ?></option>
-              <?php } else if ($checkoutcrypto_pot_decimal == 7) { ?>
+              <?php } else if ($checkoutcrypto_cc_decimal == 7) { ?>
               <option value="8"><?php echo $text_8; ?></option>
               <option value="7" selected="selected"><?php echo $text_7; ?></option>
               <option value="6"><?php echo $text_6; ?></option>
@@ -80,7 +80,7 @@ Copyright (c) 2013 John Atkinson (jga)
               <option value="4"><?php echo $text_4; ?></option>
               <option value="3"><?php echo $text_3; ?></option>
               <option value="2"><?php echo $text_2; ?></option>
-              <?php } else if ($checkoutcrypto_pot_decimal == 6) { ?>
+              <?php } else if ($checkoutcrypto_cc_decimal == 6) { ?>
               <option value="8"><?php echo $text_8; ?></option>
               <option value="7"><?php echo $text_7; ?></option>
               <option value="6" selected="selected"><?php echo $text_6; ?></option>
@@ -88,7 +88,7 @@ Copyright (c) 2013 John Atkinson (jga)
               <option value="4"><?php echo $text_4; ?></option>
               <option value="3"><?php echo $text_3; ?></option>
               <option value="2"><?php echo $text_2; ?></option>
-              <?php } else if ($checkoutcrypto_pot_decimal == 5) { ?>
+              <?php } else if ($checkoutcrypto_cc_decimal == 5) { ?>
               <option value="8"><?php echo $text_8; ?></option>
               <option value="7"><?php echo $text_7; ?></option>
               <option value="6"><?php echo $text_6; ?></option>
@@ -96,7 +96,7 @@ Copyright (c) 2013 John Atkinson (jga)
               <option value="4"><?php echo $text_4; ?></option>
               <option value="3"><?php echo $text_3; ?></option>
               <option value="2"><?php echo $text_2; ?></option>
-              <?php } else if ($checkoutcrypto_pot_decimal == 3) { ?>
+              <?php } else if ($checkoutcrypto_cc_decimal == 3) { ?>
               <option value="8"><?php echo $text_8; ?></option>
               <option value="7"><?php echo $text_7; ?></option>
               <option value="6"><?php echo $text_6; ?></option>
@@ -104,7 +104,7 @@ Copyright (c) 2013 John Atkinson (jga)
               <option value="4"><?php echo $text_4; ?></option>
               <option value="3" selected="selected"><?php echo $text_3; ?></option>
               <option value="2"><?php echo $text_2; ?></option>
-              <?php } else if ($checkoutcrypto_pot_decimal == 2) { ?>
+              <?php } else if ($checkoutcrypto_cc_decimal == 2) { ?>
               <option value="8"><?php echo $text_8; ?></option>
               <option value="7"><?php echo $text_7; ?></option>
               <option value="6"><?php echo $text_6; ?></option>

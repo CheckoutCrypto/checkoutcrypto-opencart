@@ -7,7 +7,6 @@ Copyright (c) 2013 John Atkinson (jga)
 $_['text_title'] = 'CheckoutCrypto';
 $_['button_checkoutcrypto_pay'] 		= 'Pay with CheckoutCrypto';
 $_['text_please_send']	= 'Please send';
-$_['text_pot_to']	= 'POT to';
 $_['text_to_complete']	= 'to complete the transaction.';
 $_['text_click_pay']	= 'Click to pay';
 $_['text_uri_compatible']	= '(URI-compatible wallets only)';

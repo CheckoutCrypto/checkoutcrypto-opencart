@@ -14,7 +14,6 @@ class CheckoutCryptoApi {
     }
 
    $base_url = 'https://api.checkoutcrypto.com';
-	//$base_url = 'http://127.0.0.1/html/ccdev/api/api.php';
     $arguments = '?apikey='.$apikey;
 
     switch ($action) {
@@ -79,11 +78,6 @@ class CheckoutCryptoApi {
         $url = $base_url . $arguments;
         $result = $this->urlRequest($url);
 		break;
-     case 'refreshworker':
-        $arguments .= '&action='.$action;
-        $url = $base_url . $arguments;
-        $result = $this->urlRequest($url);
-        break;
       case 'refreshcoins':
         $arguments .= '&action='.$action;
         $url = $base_url . $arguments;

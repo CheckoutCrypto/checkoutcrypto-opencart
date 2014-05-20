@@ -46,13 +46,12 @@ class ControllerPaymentCheckoutCrypto extends Controller {
             $ccApi = new CheckoutCryptoApi($apikey);
             $response = $ccApi->query(array('action' => 'refreshcoins','apikey' => $apikey));
         } catch (exception $e) {
-            var_dump($e);
+            //var_dump($e);
         }
 
         if($response['response']['status'] == 'success') {
 
             $coins = $response['response']['coins'];
-
             foreach($coins as $coin) {
 
                 $coin_name = $coin['coin_name'];
@@ -62,11 +61,12 @@ class ControllerPaymentCheckoutCrypto extends Controller {
 
                 //check if coin exists
                 try {
-                    $query = $this->db->query("SELECT coin_rate FROM " . DB_PREFIX . "cc_coins WHERE coin_code = 'POT'");
+                    $query = $this->db->query("SELECT coin_rate FROM " . DB_PREFIX . "cc_coins WHERE coin_code = '".$coin_code."'");
                 } catch (exception $e) {
                     //var_dump($e);
                 }
-                if(!$query->row['coin_rate']) {
+
+                if(!isset($query->row['coin_rate'])) {
                     //coin does not exists, insert
                     try {
                         $this->db->query("INSERT INTO " . DB_PREFIX . "cc_coins (coin_code, coin_name, coin_rate, coin_img, date_added) VALUES ('".$coin_code."', '".$coin_name."', ".$coin_rate.", '".$coin_img."', NOW())");
@@ -128,7 +128,7 @@ class ControllerPaymentCheckoutCrypto extends Controller {
         $this->data['entry_api_key'] = $this->language->get('entry_api_key');
         $this->data['entry_order_status'] = $this->language->get('entry_order_status');
         $this->data['entry_show_currency'] = $this->language->get('entry_show_currency');
-        $this->data['entry_pot_decimal'] = $this->language->get('entry_pot_decimal');
+        $this->data['entry_cc_decimal'] = $this->language->get('entry_cc_decimal');
         $this->data['entry_countdown_timer'] = $this->language->get('entry_countdown_timer');
         $this->data['entry_status'] = $this->language->get('entry_status');
 		$this->data['entry_sort_order'] = $this->language->get('entry_sort_order');
@@ -222,10 +222,10 @@ class ControllerPaymentCheckoutCrypto extends Controller {
         } else {
 			$this->data[$this->payment_module_name.'_show_currency'] = $this->config->get($this->payment_module_name.'_show_currency');
 		}
-        if (isset($this->request->post[$this->payment_module_name.'_pot_decimal'])) {
-			$this->data[$this->payment_module_name.'_pot_decimal'] = $this->request->post[$this->payment_module_name.'_pot_decimal'];
+        if (isset($this->request->post[$this->payment_module_name.'_cc_decimal'])) {
+			$this->data[$this->payment_module_name.'_cc_decimal'] = $this->request->post[$this->payment_module_name.'_cc_decimal'];
 		} else {
-			$this->data[$this->payment_module_name.'_pot_decimal'] = $this->config->get($this->payment_module_name.'_pot_decimal');
+			$this->data[$this->payment_module_name.'_cc_decimal'] = $this->config->get($this->payment_module_name.'_cc_decimal');
 		}
         if (isset($this->request->post[$this->payment_module_name.'_countdown_timer'])) {
 			$this->data[$this->payment_module_name.'_countdown_timer'] = $this->request->post[$this->payment_module_name.'_countdown_timer'];
