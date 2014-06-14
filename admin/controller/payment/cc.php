@@ -14,14 +14,13 @@ class CheckoutCryptoApi {
     }
 
    $base_url = 'https://api.checkoutcrypto.com';
-	//$base_url = 'http://127.0.0.1/html/ccdev/api/api.php';
     $arguments = '?apikey='.$apikey;
 
     switch ($action) {
       case 'getnewaddress':
         $coin_name = $params['coin'];
         $coin_amount = $params['amount'];
-        $arguments .= '&action='.$action.'&coin='.$coin_name.'&amount='.$coin_amount;
+        $arguments .= '&action='.$action.'&coin='.$coin_name;
         $url = $base_url . $arguments;
         $result = $this->urlRequest($url);
         break;
@@ -31,15 +30,6 @@ class CheckoutCryptoApi {
         $coin_name = $params['coin'];
 		$sender = $params['address'];
         $arguments .= '&action='.$action.'&twofa='.$twofa.'&coin='.$coin_name.'&amount='.$coin_amount.'&address='.$sender;
-        $url = $base_url . $arguments;
-        $result = $this->urlRequest($url);
-        break;
-    case 'pendwithdraw':
-        $coin_amount = $params['amount'];
-        $coin_name = $params['coin'];
-		$sender = $params['address'];
-		$action = 'send';
-        $arguments .= '&action='.$action.'&coin='.$coin_name.'&amount='.$coin_amount.'&address='.$sender;
         $url = $base_url . $arguments;
         $result = $this->urlRequest($url);
         break;
@@ -69,7 +59,7 @@ class CheckoutCryptoApi {
         $address = $params['address'];
         $confirms = $params['confirms'];
         $coin_amount = $params['amount'];
-        $arguments .= '&action='.$action.'&coin='.$coin_name.'&address='.$address.'&amount='.$coin_amount.'&confirms='.$confirms;
+        $arguments .= '&action='.$action.'&coin='.$coin_name.'&address='.$address.'&confirms='.$confirms;
         $url = $base_url . $arguments;
         $result = $this->urlRequest($url);
         break;
@@ -102,8 +92,8 @@ class CheckoutCryptoApi {
 
       $opts = array(
           CURLOPT_URL             => $url,
-          CURLOPT_SSL_VERIFYPEER  => false,
-          CURLOPT_SSL_VERIFYHOST  => false,
+          CURLOPT_SSL_VERIFYPEER  => true,
+          CURLOPT_SSL_VERIFYHOST  => true,
           CURLOPT_RETURNTRANSFER  => true, 
           CURLOPT_POST            => false,
           CURLOPT_HEADER         => false,

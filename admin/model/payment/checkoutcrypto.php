@@ -31,6 +31,7 @@ class ModelPaymentCheckoutCrypto extends Model {
      }
 
      public function uninstall() {
+         $this->db->query("DROP TABLE ".DB_PREFIX."cc_coins");
          $this->db->query("DROP TABLE ".DB_PREFIX."cc_orders");
      }
 

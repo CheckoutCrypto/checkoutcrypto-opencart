@@ -12,8 +12,15 @@ class ControllerPaymentCheckoutCrypto extends Controller {
 		$this->load->model('payment/checkoutcrypto');
 		$this->load->model('setting/setting');
 		$this->model_payment_checkoutcrypto->install();
-		$this->model_setting_setting->editSetting('checkoutcrypto', $this->settings);
+        $this->model_setting_setting->editSetting('checkoutcrypto', array('checkoutcrypto_api_key'=>0));
 	}
+
+
+	public function uninstall() {
+		$this->load->model('payment/checkoutcrypto');
+        $this->model_payment_checkoutcrypto->uninstall();
+
+    }
 
 	private function validate() {
 		if (!$this->user->hasPermission('modify', 'payment/'.$this->payment_module_name)) {
@@ -22,12 +29,14 @@ class ControllerPaymentCheckoutCrypto extends Controller {
 
         if (!$this->request->post['checkoutcrypto_api_key']) {
             $this->error['api_key'] = $this->language->get('error_api_key');
-        }
-
-        $apikey = $this->config->get('checkoutcrypto_api_key');
-        if(isset($this->request->post['checkoutcrypto_refresh']) AND $this->request->post['checkoutcrypto_refresh'] == 'on' OR !$apikey) {
+        }else{
+			$this->load->model('setting/setting');
+			$this->model_setting_setting->editSetting('checkoutcrypto', array('checkoutcrypto_api_key'=>$this->request->post['checkoutcrypto_api_key']));
+	$apikey = $this->request->post['checkoutcrypto_api_key'];
+}
+        if(isset($this->request->post['checkoutcrypto_refresh']) AND $this->request->post['checkoutcrypto_refresh'] == 'on' AND isset($apikey)) {
             //refresh coins here    
-            $result = $this->ccRefresh();
+            $result = $this->ccRefresh($apikey);
             if(!$result) {
                 $this->error['refresh'] = $this->language->get('error_refresh');
             }
@@ -40,9 +49,9 @@ class ControllerPaymentCheckoutCrypto extends Controller {
 		}	
     }
 
-    private function ccRefresh() {
-        try {
-            $apikey = $this->config->get('checkoutcrypto_api_key');
+    private function ccRefresh($apikey) {
+			$this->load->model('setting/setting');        
+		try {
             $ccApi = new CheckoutCryptoApi($apikey);
             $response = $ccApi->query(array('action' => 'refreshcoins','apikey' => $apikey));
         } catch (exception $e) {
