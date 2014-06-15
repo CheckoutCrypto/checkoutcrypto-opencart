@@ -57,26 +57,42 @@ function timer () {
 }
 
 $('#button-pay').on('click', function() {
-	if(timeleft > 0) {
-        html = '<div id="cc-wrapper">';
-        html += '<div id="cc-border">';
-        html += '<div id="cc_pay"></div>';
-        html += '<div id="oc-cc-payment-info">Please select your preferred cryptocurrency to continue with payment</div>';
-        html += '<div id="cc_coin_select_wrapper" class="oc_cc_show">';
-        html += '<div id="cc_coin_pot"></div>';
-        html += '<div id="cc_coin_doge"></div></div>';
-        html += '<div id="cc_payment_processing_wrapper" class="oc_cc_hide"><input name="oc_cc_selected_coin" value="" type="hidden">';
-        html += '<div id="oc_cc_payment_address_container">';
-        html += '<div class="form-item form-type-textfield form-item-oc-cc-payment-address">';
-        html += '<input readonly="readonly" size="50" id="oc-cc-payment-address" name="oc_cc_payment_address" value="" maxlength="128" class="form-text" type="text">';
-        html += '</div></div>';
-        html += '<div id="oc_cc_payment_qr_address_container"></div>';
-        html += '<div class="center"><?php echo $text_pre_timer ?><span id="timer" style="font-weight: bold;"></span><?php echo $text_post_timer ?></div>';
-        html += '<div id="cc_progress_status">This window will auto-refresh status until order is complete</div></div></div></div>';
-	}
-	else {
-		html  = expired_countdown_content;
-	}
+    $.ajax({ 
+	type: 'GET',
+	url: 'index.php?route=payment/checkoutcrypto/order_coins_display',
+	timeout: 5000,
+	dataType: 'text',
+	error: function() {
+	document.getElementById("cboxLoadedContent").innerHTML += '<div class="warning"><?php echo $error_confirm; ?></div>';
+	},
+	success: function(received) {
+		var arr = $.parseJSON(received);
+		if(timeleft > 0) {
+		    html = '<div id="cc-wrapper">';
+		    html += '<div id="cc-border">';
+		    html += '<div id="cc_pay"></div>';
+		    html += '<div id="oc-cc-payment-info">Please select your preferred cryptocurrency to continue with payment</div>';
+		    html += '<div id="cc_coin_select_wrapper" class="oc_cc_show">';
+			for (var i in arr) 
+			{
+				html +=" <div class='cc_coin' id='cc_coin_" + arr[i].coin_code.toLowerCase() + "' style='background: url("+arr[i].coin_img+" ); height: 150px; width: 150px; left no-repeat;'> </div>";
+			}
+			html +=  '</div>';
+		    html += '<div id="cc_payment_processing_wrapper" class="oc_cc_hide"><input name="oc_cc_selected_coin" value="" type="hidden">';
+		    html += '<div id="oc_cc_payment_address_container">';
+		    html += '<div class="form-item form-type-textfield form-item-oc-cc-payment-address">';
+		    html += '<input readonly="readonly" size="50" id="oc-cc-payment-address" name="oc_cc_payment_address" value="" maxlength="128" class="form-text" type="text">';
+		    html += '</div></div>';
+		    html += '<div id="oc_cc_payment_qr_address_container"></div>';
+		    html += '<div class="center"><?php echo $text_pre_timer ?><span id="timer" style="font-weight: bold;"></span><?php echo $text_post_timer ?></div>';
+		    html += '<div id="cc_progress_status">This window will auto-refresh status until order is complete</div></div></div></div>';
+		console.log(html);
+		}
+		else {
+			html  = expired_countdown_content;
+		}
+
+
 	$.colorbox({
 		overlayClose: true,
 		opacity: 0.5,
@@ -164,7 +180,9 @@ $('#button-pay').on('click', function() {
                             document.getElementById("cboxLoadedContent").innerHTML += '<div class="warning"><?php echo $error_confirm; ?></div>';
                         },
                         success: function(received) {
-                            console.log(received);
+							$.each(received, function (index, value) {
+							 console.log(value);
+							});
                         }
                     });
                 }
@@ -222,5 +240,7 @@ $('#button-pay').on('click', function() {
 			checker = 0;
 		}
 	});
+	}
+});
 });
 //--></script> 

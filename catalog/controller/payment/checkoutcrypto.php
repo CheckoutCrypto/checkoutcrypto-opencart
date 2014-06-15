@@ -209,6 +209,25 @@ class ControllerPaymentCheckoutCrypto extends Controller {
         }
     }
 
+    public function order_coins_display($json = TRUE) {
+        $this->load->model('checkout/order');
+        $order_id = $this->session->data['order_id'];
+        $order = $this->model_checkout_order->getOrder($order_id);
+        $query = $this->db->query("SELECT coin_code, coin_name, coin_rate, coin_img FROM `" . DB_PREFIX . "cc_coins`");
+		$count = 0;
+        $coins = array();
+        foreach ($query->rows as $coin) {
+            $coin['coin_img'] = $coin['coin_img'];
+            $coins[$count] = $coin;
+			$count = $count + 1;
+        }
+        if($json === TRUE) {
+            echo json_encode($coins);
+        } else {
+            return $coins;
+        }
+    }
+
     public function confirm_sent() {
 
         $this->load->model('checkout/order');

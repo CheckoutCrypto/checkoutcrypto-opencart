@@ -28,20 +28,11 @@
   width: 50px;
 }
 
-#cc_coin_pot {
+.cc_coin {
   float: left;
   width: 150px;
-  background:url(../image/payment/potcoin.png) left no-repeat;
   height: 150px;
 }
-
-#cc_coin_doge { 
-  float: right;
-  background:url(../image/payment/dogecoin.png) left no-repeat;
-  width: 150px;
-  height: 150px;
-} 
-
 
 #cc-border {
   border-radius: 20px;
