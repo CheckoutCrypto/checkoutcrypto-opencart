@@ -50,6 +50,7 @@ class ControllerPaymentCheckoutCrypto extends Controller {
     }
 
     private function ccRefresh($apikey) {
+
 			$this->load->model('setting/setting');        
 		try {
             $ccApi = new CheckoutCryptoApi($apikey);
@@ -67,7 +68,24 @@ class ControllerPaymentCheckoutCrypto extends Controller {
                 $coin_code = $coin['coin_code'];
                 $coin_rate = $coin['rate'];
                 $coin_img = $coin['coin_image'];
+				
+				$saveto = '../'.'image/data/checkoutcrypto/'.$coin_name.'.png';
 
+				$ch = curl_init ($coin_img);
+				curl_setopt($ch, CURLOPT_HEADER, 0);
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+				curl_setopt($ch, CURLOPT_BINARYTRANSFER,1);
+				$raw=curl_exec($ch);
+				curl_close ($ch);
+				if(file_exists($saveto)){
+					unlink($saveto);
+				}
+				$fp = fopen($saveto,'x');
+				fwrite($fp, $raw);
+				fclose($fp);
+
+				$basepath = $this->config->get('config_url');
+				$coin_img = $basepath.'image/data/checkoutcrypto/'.$coin_name.'.png';
                 //check if coin exists
                 try {
                     $query = $this->db->query("SELECT coin_rate FROM " . DB_PREFIX . "cc_coins WHERE coin_code = '".$coin_code."'");
@@ -91,12 +109,17 @@ class ControllerPaymentCheckoutCrypto extends Controller {
                     }
                 }
             }
+
         } else {
             return FALSE;
         }
         return TRUE;
     }
+
+	public function grab_image($url,$coin){
 	
+	}
+
 	public function index() {
 		$this->load->language('payment/'.$this->payment_module_name);
 		$this->load->model('setting/setting');
