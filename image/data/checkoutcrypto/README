@@ -1,0 +1,5 @@
+add permissions for dynamic coin images;
+
+if not refreshing, try emptying oc_cc_coin sql table
+
+sudo chmod 777 ./oc_cc/image/data/checkoutcrypto 
