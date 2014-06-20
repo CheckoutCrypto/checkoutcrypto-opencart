@@ -2,23 +2,44 @@
 
 On CheckoutCrypto.com
 
-1. Register at checkoutcrypto.com
+* Register at checkoutcrypto.com
 
-2. Select Coins in the menu on the left, select "manage" then "add coin" on your preferred cryptocurrency.
+* Select Coins in the menu on the left, select "manage" then "add coin" on your preferred cryptocurrency.
 
-3. Select Account in the menu on the left, the select generate API key.
+* Select Account in the menu on the left, the select generate API key.
 
 ==On your site:==
 
-1. Install http://www.opencart.com/ and all dependencies
+* Install http://www.opencart.com/ and all dependencies
 
-2. Extract CheckoutCrypto OpenCart Payment Extension
+* Extract CheckoutCrypto OpenCart Payment Extension
 
-3. Login to the yoursite/admin
+* Login to the yoursite/admin
 
-4. In your admin menu (the top bar), select Extensions->Payment. Select install then edit.  
+* In your admin menu (the top bar), select Extensions->Payment. Select install then edit.  
 
-6. The final step is to copy and paste your api key. Go back to checkoutcrypto and copy your API key from the "Account" menu (the same one you generated in step 2).
+* The final step is to copy and paste your api key. Go back to checkoutcrypto and copy your API key from the "Account" menu (the same one you generated in step 2).
+
+
+==CRON for Rates==
+
+* Login to your server's shell, 
+
+* copy ./catalog/controller/payment/cc-rates/* to an appropriate folder for any user account, we'll call this $ABSOLUTEPATH, remember it or write it down.
+
+* edit ratesconfig for your mysql database info, specifically the IP, table, user settings for your CMS
+
+* edit getrate.php for any preferred coins you need to add/remove, if the row doesn't exist in table you'll have to create one in cc_coin.
+
+* run the following, replace user with the preferred cron user.
+
+ sudo su $USER -c "crontab -e"
+
+* add a new line at the bottom of the file:
+
+15,45 * * * * cd $ABSOLUTEPATH && php -f getrate.php 
+
+
 
 === troubleshooting ===
 
