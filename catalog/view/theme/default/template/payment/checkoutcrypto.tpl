@@ -1,7 +1,10 @@
-<!--
-Copyright (c) 2013 John Atkinson (jga)
+<?php
+
+/*
+Copyright 2014 CheckoutCrypto Canada Apache 2.0 Licensed
 */
--->
+
+?>
 
 <?php if(!$error) { ?>
 	<div class="buttons">
