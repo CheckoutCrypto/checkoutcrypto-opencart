@@ -81,8 +81,8 @@ function getBtcDollars(){
 	$result = apiRequest($url, $jsonpath);
 
 	if($result) {
-		//$rDb = new ratesDb();
-		//$rDb->setRates('BTC',$result['last']);
+		$rDb = new ratesDb();
+		$rDb->setRates('BTC',$result['last']);
 		return $result['last'];
 	}
 }
