@@ -91,9 +91,8 @@ function getRate($coin, $btcprice){
 		$rate = $result['last_price'] * $btcprice;
 		$rDb = new ratesDb();
 		$rDb->setRates($coin,$rate);
-        $rate = (1 / $result['last_price']) / $btcprice;
-        $rDb->setOpenCRates($coin, $rate);
-
+		$rate = (1 / $result['last_price']) / $btcprice;
+		$rDb->setOpenCRates($coin, $rate);
 	}
 }
 
@@ -107,8 +106,7 @@ function getBtcDollars(){
 		$rDb = new ratesDb();
 		$rDb->setRates('BTC',$result['last']);
 		$rate = (1 / $result['last']);
-        $rDb->setOpenCRates('BTC',$rate);
-
+		$rDb->setOpenCRates('BTC',$rate);
 		return $result['last'];
 	}
 }
