@@ -27,6 +27,27 @@ Class ratesDb {
         return false;
     }
 
+	function setOpenCRates($coin_code,$coin_rate) {
+		    try {
+		        $rDb = $this->connectDemoOpenCDb();
+		        $stmt = $rDb->prepare("UPDATE oc_currency SET value  = :coin_rate  WHERE symbol_right = :coin_code LIMIT 1" );
+
+		        $stmt->bindValue(':coin_code', ' '.$coin_code, PDO::PARAM_STR);
+		        $stmt->bindValue(':coin_rate', $coin_rate, PDO::PARAM_INT);
+		        $stmt->execute();
+		        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		    } catch (exception $e) {
+		        echo $e;
+		    }  
+		    return false;
+		}
+
+
+
+}
+
+
+
 }
 
 function apiRequest($url, $json) {
@@ -68,9 +89,11 @@ function getRate($coin, $btcprice){
 
 	if($result) {
 		$rate = $result['last_price'] * $btcprice;
-		echo $rate;
 		$rDb = new ratesDb();
 		$rDb->setRates($coin,$rate);
+        $rate = (1 / $result['last_price']) / $btcprice;
+        $rDb->setOpenCRates($coin, $rate);
+
 	}
 }
 
@@ -83,6 +106,9 @@ function getBtcDollars(){
 	if($result) {
 		$rDb = new ratesDb();
 		$rDb->setRates('BTC',$result['last']);
+		$rate = (1 / $result['last']);
+        $rDb->setOpenCRates('BTC',$rate);
+
 		return $result['last'];
 	}
 }
