@@ -41,13 +41,6 @@ Class ratesDb {
 		    }  
 		    return false;
 		}
-
-
-
-}
-
-
-
 }
 
 function apiRequest($url, $json) {
