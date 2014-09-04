@@ -38,6 +38,7 @@ countdown = 0;
 
 var timeleft = <?php echo $checkoutcrypto_countdown_timer; ?>;
 var checker = 0;
+var iVal = 5000;
 var expired_countdown_content = '<div style="font-size:16px; padding:6px; text-align:center;"><?php echo $text_countdown_expired ?></div>';
 function timer () {
 	timeleft = timeleft -1;
@@ -53,7 +54,11 @@ function timer () {
 	var seconds = timeleft%60;
 	var seconds_string = "0" + seconds;
 	seconds_string = seconds_string.substr(seconds_string.length - 2)
-	document.getElementById("timer").innerHTML = minutes + ":" + seconds_string;
+	if(document.getElementById("timer") != null){
+		document.getElementById("timer").innerHTML = minutes + ":" + seconds_string;
+	}else{
+		timeleft = 0;
+	}
 }
 
 $('#button-pay').on('click', function() {
@@ -105,6 +110,10 @@ $('#button-pay').on('click', function() {
 		                console.log(e.target.id);
 		                var coin_code = e.target.id;
 		                coin_code = coin_code.substring(8);
+                    	if(coin_code == "btc"){
+                              iVal = iVal *2;
+                              timeleft = timeleft *2;
+                        }
 		                checkoutcrypto_order_details(coin_code);
 		            } else {
 		                console.log("nope");
@@ -224,7 +233,7 @@ $('#button-pay').on('click', function() {
 		                             document.getElementById("oc-cc-payment-address").value = response['coin_address'];
 		                             document.getElementById("oc_cc_payment_qr_address_container").innerHTML = url_qr_output;
 		                             countdown = setInterval(timer, 1000);
-		                             checker = setInterval(checkoutcrypto_check, 5000);
+		                             checker = setInterval(checkoutcrypto_check, iVal);
 		                        }
 		                    }
 		                });
